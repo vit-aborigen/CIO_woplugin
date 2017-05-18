@@ -1,9 +1,6 @@
 import numpy
 
-def checkio(data):
-
-    #replace this for solution
-    return numpy.median(data)
+def checkio(data): return numpy.median(data)
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':
