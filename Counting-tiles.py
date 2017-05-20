@@ -20,9 +20,7 @@ def checkio(radius):
             result.append(math.sqrt(tile[0]**2 + tile[1]**2) <= radius)
         return result
 
-
     full_squares, partial_squares = 0, 0
-
     for i in range(length):
         for j in range(length):
             left_bottom = (i,j)
@@ -30,18 +28,11 @@ def checkio(radius):
             tile_result = isCornersInCircle((left_bottom, right_top), radius)
             if sum(tile_result) == 1: partial_squares +=1
             elif sum(tile_result) == 2: full_squares += 1
-    return [full_squares, partial_squares]
+    return [full_squares*4, partial_squares*4]
 
-print(checkio(2))
-
-
-
-
-
-checkio(2.1)
-#These "asserts" using only for self-checking and not necessary for auto-testing
-# if __name__ == '__main__':
-#     assert checkio(2) == [4, 12], "N=2"
-#     assert checkio(3) == [16, 20], "N=3"
-#     assert checkio(2.1) == [4, 20], "N=2.1"
-#     assert checkio(2.5) == [12, 20], "N=2.5"
+# These "asserts" using only for self-checking and not necessary for auto-testing
+if __name__ == '__main__':
+    assert checkio(2) == [4, 12], "N=2"
+    assert checkio(3) == [16, 20], "N=3"
+    assert checkio(2.1) == [4, 20], "N=2.1"
+    assert checkio(2.5) == [12, 20], "N=2.5"
