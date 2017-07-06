@@ -6,9 +6,6 @@ def reverse_roman(roman_string):
     previous_char = roman_string[0]
     counted = False
 
-    if len(roman_string) == 1:
-        return numbers[roman_string]
-
     for current_char in roman_string[1:]:
         if order.find(previous_char) < order.find(current_char):
             result += numbers[current_char] - numbers[previous_char]
