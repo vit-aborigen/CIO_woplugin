@@ -1,3 +1,5 @@
+import collections.abc as cabc
+
 def isEmpty(element):
     if isinstance(element, dict):
         return (not element) or ('' in element and len(element) == 1)
@@ -6,9 +8,12 @@ def isEmpty(element):
     elif isinstance(element, (list, tuple)):
         return completely_empty(element)
     elif hasattr(element, '__iter__'):
-        return not bool(len(list(element)))
+        if isinstance(element, (str, cabc.Iterator)):
+            return not bool(len(list(element)))
+        return False
     elif element is None:
         return False
+
     return not bool(len(element))
 
 def completely_empty(val):
@@ -29,5 +34,4 @@ if __name__ == '__main__':
     assert completely_empty(['']) == True
     assert completely_empty([[],[{'':'No WAY'}]]) == True
     assert completely_empty([iter(())]) == True
-    assert completely_empty([None]) == True
-    assert completely_empty([type('', (), {'__iter__': None})()]) == True
+    assert completely_empty([type('', (), {'__iter__': None})()]) == False
