@@ -1,4 +1,4 @@
-import collections.abc as cabc
+from collections import Iterator
 
 def isEmpty(element):
     if isinstance(element, dict):
@@ -8,7 +8,7 @@ def isEmpty(element):
     elif isinstance(element, (list, tuple)):
         return completely_empty(element)
     elif hasattr(element, '__iter__'):
-        if isinstance(element, (str, cabc.Iterator)):
+        if isinstance(element, (str, Iterator)):
             return not bool(len(list(element)))
         return False
     elif element is None:
