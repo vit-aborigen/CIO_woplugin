@@ -19,7 +19,7 @@ class Battle(object):
                     unit_2 = army_2.units.pop(0)
             elif len(army_1) > 0:
                 unit_1 = army_1.units.pop(0)
-            print(len(army_1), len(army_2), '\n')
+
         return unit_1.is_alive
 
 
