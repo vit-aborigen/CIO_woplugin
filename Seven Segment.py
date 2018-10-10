@@ -17,7 +17,7 @@ def literal_to_binary(literal):
     # get literal index -> convert to 7-signs binary -> convert to int (same format as items in DIGITS list)
     return int(bin(1 << LITERALS.index(literal))[2:], 2)
 
-def convert_pair_to_bitwise(segments_set):
+def convert_pair_to_binary(segments_set):
     digit_first, digit_second = 0, 0
     for segment in segments_set:
         if segment in LITERALS:
@@ -27,8 +27,8 @@ def convert_pair_to_bitwise(segments_set):
     return (digit_first, digit_second)
 
 def seven_segment(lit_seg, broken_seg):
-    lit_first, lit_second = convert_pair_to_bitwise(lit_seg)
-    broken_first, broken_second = convert_pair_to_bitwise(broken_seg)
+    lit_first, lit_second = convert_pair_to_binary(lit_seg)
+    broken_first, broken_second = convert_pair_to_binary(broken_seg)
 
     print(bin(broken_second))
     #(digit & seg) == seg
