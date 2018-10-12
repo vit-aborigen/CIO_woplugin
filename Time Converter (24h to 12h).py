@@ -1,8 +1,7 @@
 from datetime import datetime
 
 def time_converter(time):
-    dt = datetime.strptime(time, "%H:%M")
-    return dt.strftime("%I:%M %p")
+    return (datetime.strptime(time, "%H:%M").strftime("%I:%M %p").replace('PM', 'p.m.').replace('AM', 'a.m.').lstrip('0'))
 
 if __name__ == '__main__':
     print("Example:")
