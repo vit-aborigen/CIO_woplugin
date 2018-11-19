@@ -1,4 +1,7 @@
-mult_two = lambda a,b: a*b
+from functools import reduce
+from operator import mul
+
+mult_two = lambda a,b: reduce(mul, (a,b))
 
 if __name__ == '__main__':
     print("Example:")
