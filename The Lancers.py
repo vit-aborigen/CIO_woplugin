@@ -51,6 +51,7 @@ class Battle(object):
             unit_3 = self.army_2.check_next_unit() if self.army_2 else None
             self.calculate_damage_done(unit_1, unit_2, unit_3)
             if unit_2.is_alive:
+                log("{} HP: {:2d}, {} HP: {:2d}".format(unit_1, unit_1.health, unit_2, unit_2.health))
                 unit_3 = self.army_1.check_next_unit() if self.army_1 else None
                 self.calculate_damage_done(unit_2, unit_1, unit_3)
         return unit_1.is_alive
