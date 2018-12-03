@@ -9,7 +9,7 @@ Algorithm:
 
 '''
 
-from collections import deque
+from collections import deque, Counter
 
 def generate_perfect_colonies(max_len=7):
     perfect_colonies = {}
@@ -40,10 +40,16 @@ def is_bacteria_belong_to_any_colony(bacteria, colonies):
             return True
     return False
 
+def find_central_point_of_colony(colony):
+    x = Counter([dot[0] for dot in colony])
+    y = Counter([dot[1] for dot in colony])
+
+
 def healthy(grid):
     h, w = len(grid), len(grid[0])
     colonies = []
     perfect_colonies = generate_perfect_colonies()
+    print(perfect_colonies)
     for i in range(h):
         for j in range(w):
             if grid[i][j] and not is_bacteria_belong_to_any_colony((i,j), colonies):
