@@ -4,14 +4,13 @@ Algorithm:
 2) Generate perfect colonies (will be used as the mask / pattern) with the [2-5] side-length with the center at (0,0) point
 3) Calculate size of all perfect colonies (magic numbers)
 4) Compare size of each found colony with the perfect colonies. Leave colonies that fit to magic numbers
-5) Adjust
-
+5) Adjust offset for the perfect colony based on the central point
 
 '''
 
 from collections import deque, Counter
 
-def generate_perfect_colonies(max_len=7):
+def generate_perfect_colonies(max_len=9):
     perfect_colonies = {}
     for size in range(1, max_len):
         perfect_colony = []
@@ -41,30 +40,32 @@ def is_bacteria_belong_to_any_colony(bacteria, colonies):
     return False
 
 def find_central_point_of_colony(colony):
-    x = Counter([dot[0] for dot in colony])
-    y = Counter([dot[1] for dot in colony])
+    x = Counter([dot[0] for dot in colony]).most_common()[0][0]
+    y = Counter([dot[1] for dot in colony]).most_common()[0][0]
+    return [x, y]
 
+def compare_colony_with_a_perfect_one(colony_to_compare, perfect_colony):
+    x, y = find_central_point_of_colony(colony_to_compare)
+    perfect_colony_adjusted = set([(i + x, j + y) for i,j in perfect_colony])
+    return not (perfect_colony_adjusted ^ colony_to_compare)
 
 def healthy(grid):
     h, w = len(grid), len(grid[0])
     colonies = []
     perfect_colonies = generate_perfect_colonies()
-    print(perfect_colonies)
     for i in range(h):
         for j in range(w):
             if grid[i][j] and not is_bacteria_belong_to_any_colony((i,j), colonies):
-                colonies.append(start_new_colony(grid, (i, j)))
-    colonies = [colony for colony in colonies if len(colony) in perfect_colonies.keys()]
-    return colonies
+                colony = start_new_colony(grid, (i, j))
+                if len(colony) in perfect_colonies.keys():
+                    colonies.append(colony)
 
-print(healthy(((0,0,0,0,0,1,0,0,0,0,1,1,0,0,0),(0,0,0,0,1,1,1,0,0,0,1,1,1,0,0),(0,0,0,0,0,1,0,0,0,1,1,1,1,1,0),(0,0,0,0,0,0,0,0,1,1,1,1,1,1,1),(0,0,0,1,0,0,0,0,0,1,1,1,1,1,0),(0,0,1,1,1,0,0,0,0,0,1,1,1,0,0),(0,1,1,1,1,1,0,0,0,0,0,1,0,0,0),(1,1,1,1,1,1,1,0,0,0,0,0,0,0,0),(0,1,1,0,1,1,0,0,0,0,1,0,0,0,0),(0,0,1,1,1,1,0,0,0,1,1,1,0,0,0),(0,0,0,1,0,0,0,0,1,1,1,1,1,0,0),(0,0,0,0,0,0,0,1,1,1,1,1,1,1,0),(0,0,0,0,0,0,0,0,1,1,1,1,1,0,0),(0,0,0,0,0,0,0,0,0,1,1,1,0,0,0),(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))))
+    results = [colony for colony in colonies if compare_colony_with_a_perfect_one(colony, perfect_colonies[len(colony)])]
+    if results:
+        return find_central_point_of_colony(sorted(results, key=len, reverse=True)[0])
+    return [0,0]
 
-# def healthy(grid):
-#     return 0, 0
-
-# print(healthy(((0, 1, 0),
-#          (1, 1, 1),
-#          (0, 1, 0),)))
+print(healthy(((0,0,0,0,0,0,0,1,0,0,0,0,0,0,0),(0,0,1,0,0,0,1,1,1,0,0,1,1,1,0),(0,1,1,1,0,1,1,1,1,1,0,0,1,1,0),(0,0,1,0,1,1,1,1,1,1,1,0,0,1,0),(0,0,0,1,1,1,1,1,1,1,1,1,0,0,0),(0,0,1,1,1,1,1,1,1,1,1,1,1,0,0),(0,1,1,1,1,1,1,1,1,1,1,1,1,1,0),(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1),(0,1,1,1,1,1,1,1,1,1,1,1,1,1,0),(0,0,1,1,1,1,1,1,1,1,1,1,1,0,0),(0,0,0,1,1,1,1,1,1,1,1,1,0,0,0),(0,0,0,0,1,1,1,1,1,1,1,0,1,0,0),(0,0,0,0,0,1,1,1,1,1,0,1,1,1,0),(0,1,0,0,0,0,1,1,1,0,0,0,1,0,0),(0,0,0,0,0,0,0,1,0,0,0,0,0,0,0))))
 
 # if __name__ == '__main__':
 #     # These "asserts" using only for self-checking and not necessary for auto-testing
