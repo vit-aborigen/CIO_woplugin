@@ -1,0 +1,1 @@
+checkio = lambda x: sum(x)
