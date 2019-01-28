@@ -4,7 +4,6 @@ def swap_nodes(a):
         result += [a[i+1], a[i]]
     return result if not len(a) % 2 else result + [a[-1]]
 
-
 if __name__ == '__main__':
     print("Example:")
     print(list(swap_nodes([1, 2, 3, 4])))
